@@ -1,0 +1,47 @@
+{
+  "skill_name": "requirements-engineering-sophist",
+  "evals": [
+    {
+      "id": 1,
+      "name": "checkout-de",
+      "prompt": "Hier sind meine Notizen aus dem Meeting mit dem E-Commerce-Team zum Checkout-Feature. Kannst du daraus bitte Requirements, ein Glossar und offene Punkte machen?\n\nWenn ein Kunde eine Bestellung abschließt, werden die Daten validiert und an das Zahlungssystem übergeben. Das System muss immer eine Bestätigungsmail versenden. Der Warenkorb darf maximal 20 Artikel enthalten. Support meinte letzte Woche, dass es eigentlich 50 Artikel sein sollten, aber das wurde nie offiziell geändert. Falls die Zahlung fehlschlägt, soll der Kunde benachrichtigt werden. Alle Nutzer müssen sich vor dem Checkout einloggen, außer Gäste. Der Begriff 'Session' wird sowohl für die Login-Session als auch für eine Beratungs-Session im Kundenservice-Modul verwendet - das sorgt regelmäßig für Verwirrung im Team. SKU steht für die Produktkennung, wird aber im Lager-Team auch 'Artikelnummer' genannt.",
+      "expected_output": "Three markdown files (requirements.md, glossary.md, open_issues.md). Requirements follow the MASTER template with explicit actors (not passive). Glossary flags 'Session' with two different contexts/rows. Open issues catch the 20 vs 50 item contradiction and the missing else-branch for non-guest login.",
+      "files": [],
+      "expectations": [
+        "Produces three separate files/sections: requirements, glossary, open issues",
+        "The passive sentence about data validation is rewritten with an explicit actor/system named, not left passive",
+        "Glossary has two distinct rows or a clear split for 'Session' (login session vs. customer-service consultation session), each naming its own context",
+        "Open issues file flags the contradiction between the 20-item and 50-item cart limit",
+        "Glossary or requirements captures 'SKU' and 'Artikelnummer' as synonyms for the same concept"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "support-ticket-en",
+      "prompt": "Turn this rough meeting transcript about our support ticket tool into a proper requirements doc — requirements table, glossary, and open issues please.\n\nSo basically when a ticket comes in it gets tagged automatically. The agent should always be able to reassign a ticket to another queue. High priority tickets need to be resolved within 4 hours, though Sarah mentioned in the email last month it was supposed to be 2 hours for VIP customers specifically. If the customer doesn't respond within 48 hours the ticket auto-closes. The word 'queue' is used both for the list of unassigned tickets and for the escalation queue that only managers see - two totally different things. Also we keep saying 'the platform' but nobody's ever said if that means the ticketing tool itself or the whole customer portal. All agents must complete SLA training before touching tickets.",
+      "expected_output": "Requirements avoid passive voice ('gets tagged automatically' rewritten with an explicit actor). Glossary has two separate rows for 'queue' with distinct contexts. Open issues catch the 4h vs 2h SLA contradiction and the undefined 'the platform' reference.",
+      "files": [],
+      "expectations": [
+        "Produces three separate files/sections: requirements, glossary, open issues",
+        "The passive sentence 'ticket gets tagged automatically' is rewritten with an explicit actor/system named",
+        "Glossary has two distinct rows or a clear context split for 'queue' (unassigned-ticket list vs. manager-only escalation queue)",
+        "Open issues file flags the contradiction between the 4-hour and 2-hour SLA for VIP customers",
+        "Open issues file flags 'the platform' as an undefined/ambiguous term (ticketing tool vs. whole customer portal)"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "iot-spec-en",
+      "prompt": "Can you process this draft device spec into a requirements table, glossary, and open issues list? It's pretty rough, written by different people on the hardware and software teams.\n\nThe thermostat shall report the current temperature every 5 minutes. If the temperature sensor fails, an alert is generated. The device must always maintain a stable WiFi connection. Firmware updates should be pushed automatically to all devices in the fleet. The battery threshold for low-power mode is 15%, but the hardware team's spec sheet lists it as 20%. 'Client' refers to the mobile app connecting to the device in the networking section, but in the billing section 'client' means the paying customer account. HVAC stands for heating ventilation air conditioning and is assumed to be known but never defined in this doc for new team members.",
+      "expected_output": "Glossary has separate context-scoped rows for 'Client' (networking vs billing). Open issues catch the 15% vs 20% battery threshold contradiction and the missing else-branch for what happens after a sensor-failure alert. HVAC gets a glossary row anchored to standard usage since the source never defines it.",
+      "files": [],
+      "expectations": [
+        "Produces three separate files/sections: requirements, glossary, open issues",
+        "Glossary has two distinct rows or a clear context split for 'Client' (mobile app in networking context vs. paying customer account in billing context)",
+        "Open issues file flags the contradiction between the 15% and 20% low-power battery threshold",
+        "Open issues file flags the missing else-branch: what happens operationally after a sensor-failure alert is generated",
+        "Glossary includes a row for 'HVAC' with its source marked as standard usage rather than invented"
+      ]
+    }
+  ]
+}
