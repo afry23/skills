@@ -1,0 +1,56 @@
+{
+  "skill_name": "ddd-context-map",
+  "evals": [
+    {
+      "id": 0,
+      "name": "ecommerce-requirements-table",
+      "prompt": "Ich habe hier eine Requirements-Tabelle für unsere neue E-Commerce-Plattform ShopNow. Kannst du daraus eine Context Map nach Domain-Driven Design erstellen, die Bounded Contexts beschreiben und vorschlagen, welche Module in den jeweiligen Contexts Sinn ergeben würden? Die Datei liegt unter eval1_ecommerce_requirements.md.",
+      "expected_output": "Mermaid context map with contexts like Ordering/Checkout, Fulfillment/Warehouse, Billing/Invoicing, Support, Identity, Pricing (Generic, external SaaS), Shipping Carrier Integration (Conformist/ACL due to legacy SOAP API). Bounded context table, relationship table with justified patterns, module proposals per context, gap analysis.",
+      "files": ["eval1_ecommerce_requirements.md"],
+      "assertions": [
+        "Output contains a fenced mermaid code block representing the context map (flowchart with nodes and labeled edges)",
+        "At least 5 distinct Bounded Contexts are identified (e.g. Ordering/Checkout, Fulfillment/Warehouse, Billing/Invoicing, Support, Identity, Pricing)",
+        "Pricing context is classified as Generic Subdomain, citing REQ-017/REQ-018 (third-party SaaS, no custom logic)",
+        "Shipping carrier integration is modeled with Conformist or Anticorruption Layer pattern, citing REQ-019 (legacy SOAP, uninfluenceable)",
+        "Identity/authentication sharing (REQ-016) is reflected as an Open Host Service or Shared Kernel relationship to downstream contexts",
+        "A Bounded Contexts table exists with columns for Context, Type, Core Purpose, Ubiquitous Language, and Source REQ-IDs",
+        "A Relationships table exists citing specific REQ-IDs as rationale for each strategic pattern chosen",
+        "A Proposed Modules per Context section exists with at least one module per identified context, each citing Source REQ-IDs",
+        "A Gaps/Open Boundary Questions section exists naming at least one concrete ambiguity with a REQ-ID"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "versicherung-lastenheft-raw",
+      "prompt": "Anbei ein Auszug aus unserem Lastenheft für die Kfz-Versicherung SicherFahrt (roher Fließtext, keine REQ-IDs). Erstelle bitte eine DDD Context Map mit Bounded-Context-Beschreibungen und Modulvorschlägen je Context. Datei: eval2_versicherung_lastenheft.md.",
+      "expected_output": "Assigns REQ-IDs first. Identifies contexts like Antragstellung/Underwriting, Vertragsverwaltung, Schadenbearbeitung/Claims, Buchhaltung, external Bonitätsprüfung (Conformist/ACL, external SCHUFA). Flags Bonus-Malus feedback loop between Claims and Underwriting as a relationship (Customer/Supplier or Partnership) with rationale. Module proposals, gap analysis on ambiguous boundaries.",
+      "files": ["eval2_versicherung_lastenheft.md"],
+      "assertions": [
+        "Sequential REQ-IDs (REQ-001, REQ-002, ...) are assigned to the raw text before modeling, since the source has none",
+        "Antragstellung/Underwriting/Risikoprüfung is modeled as a distinct Bounded Context from Vertragsverwaltung",
+        "Schadenbearbeitung/Claims is modeled as its own Bounded Context, distinct from Vertragsverwaltung and Antragstellung",
+        "The Bonus-Malus feedback loop from Schadenbearbeitung back to Antragstellung/Risikoprüfung is explicitly modeled as a relationship with a named strategic pattern and rationale",
+        "The external Bonitätsprüfung/SCHUFA integration is classified as Conformist or Anticorruption Layer, noting the system cannot auto-reject based on score alone",
+        "Buchhaltung (accounting/billing) is modeled as a separate Bounded Context from Vertragsverwaltung",
+        "Output contains a fenced mermaid code block for the context map",
+        "A Gaps/Open Boundary Questions section names at least one concrete boundary ambiguity referencing a REQ-ID"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "logistik-functional-spec-input",
+      "prompt": "Wir haben bereits eine funktionale Spezifikation (Klassendiagramm + Gherkin Acceptance Criteria) für unsere Logistik-Plattform FreightLink erstellt (siehe eval3_logistik_functional_spec.md). Kannst du darauf aufbauend eine DDD Context Map ableiten, die Bounded Contexts beschreiben und passende Module je Context vorschlagen?",
+      "expected_output": "Uses existing class diagram entities to cluster contexts: Shipment Management/Dispatch, Route & Fleet Planning, Customs/Compliance (ACL to external customs authority per REQ-110), Warehousing (possibly external system), Billing/Invoicing. Relationships traced to REQ-101..110. Module proposals with aggregates (e.g. Shipment + Consignment aggregate). Gap analysis reuses/extends the open gaps already noted in the input spec.",
+      "files": ["eval3_logistik_functional_spec.md"],
+      "assertions": [
+        "Reuses entities from the existing class diagram (Shipment, Consignment, Carrier, Route, Vehicle, Driver, CustomsDeclaration, Invoice, WarehouseSlot) rather than re-deriving a domain model from scratch",
+        "Customs/Compliance is modeled as its own Bounded Context with an Anticorruption Layer relationship to the external customs authority, citing REQ-110",
+        "Shipment/Dispatch and Route & Fleet Planning (or equivalent) are modeled as distinct contexts rather than one monolithic context",
+        "At least one aggregate is proposed with an explicit root (e.g. Shipment as aggregate root containing Consignment)",
+        "Relationships table cites specific REQ-IDs (REQ-101 through REQ-110) as evidence",
+        "Output contains a fenced mermaid code block for the context map",
+        "Gap analysis references or extends the ambiguities already noted in the input spec (e.g. ownership of CustomsDeclaration, WarehouseSlot, Invoice)"
+      ]
+    }
+  ]
+}
